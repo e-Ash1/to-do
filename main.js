@@ -16,11 +16,16 @@ taskForm.addEventListener('submit', function(event) {
         const newTask = document.createElement('li');
         const taskText = document.createElement('span');
         const removeButton = document.createElement('button');
+        const completeButton=document.createElement('button');
+        removeButton.className='btn--remove';
+        completeButton.className='btn--complete';
 
             taskText.textContent = taskValue;
+            completeButton.textContent= '\u2713';
             removeButton.textContent = 'X';
             newTask.appendChild(taskText);
             newTask.appendChild(removeButton);
+            newTask.appendChild(completeButton);
             taskList.appendChild(newTask);
             taskInput.value = ''; // clear the input field
             tasks.push(taskValue); // add new task to the array
@@ -41,11 +46,16 @@ for (let i = 0; i < tasks.length; i++) {
     const newTask = document.createElement('li');
     const taskText = document.createElement('span');
     const removeButton = document.createElement('button');
+    const completeButton = document.createElement('button');
+    removeButton.className='btn--remove';
+    completeButton.className='btn--complete';
    
     taskText.textContent = tasks[i]; //Creates a new <span> element for every item update
+    completeButton.textContent= '\u2713';
     removeButton.textContent = 'X'; //Creates a new <button> element for every 'task' item
     newTask.appendChild(taskText); //Attaches 'task' item to <li> element on index.html
     newTask.appendChild(removeButton);  //Attaches 'removeButton' to every <li> element on index.html
+    newTask.appendChild(completeButton); //Attaches 'completeButton' to every <li> element on index.html
     taskList.appendChild(newTask); //Attaches <li> element to <ul> element on index
 
     removeButton.addEventListener('click', function(){
