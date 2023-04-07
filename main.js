@@ -6,6 +6,7 @@ const taskList = document.getElementById('task-list');
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 console.log(tasks);
 
+
 //
 taskForm.addEventListener('submit', function(event) {
     event.preventDefault(); // Prevents the form from auto-submitting
@@ -15,50 +16,78 @@ taskForm.addEventListener('submit', function(event) {
         
         const newTask = document.createElement('li');
         const taskText = document.createElement('span');
+        
         const removeButton = document.createElement('button');
         const completeButton=document.createElement('button');
-        removeButton.className='btn--remove';
-        completeButton.className='btn--complete';
+            removeButton.className='btn--remove'; //Adds className to button
+            completeButton.className='btn--complete';
+            completeButton.textContent= '\u2713'; //Styles value of button to be a checkmark
+            removeButton.textContent = 'X';//Styles value of button to be a X
 
-            taskText.textContent = taskValue;
-            completeButton.textContent= '\u2713';
-            removeButton.textContent = 'X';
-            newTask.appendChild(taskText);
-            newTask.appendChild(removeButton);
-            newTask.appendChild(completeButton);
-            taskList.appendChild(newTask);
+        const buttonsContainer=document.createElement('div'); //Intializes <div> element
+            buttonsContainer.classList.add('btn--container'); //Adds className to <div> buttonsContainer
+            buttonsContainer.appendChild(removeButton); //Attaches child element of remove button under buttonsContainer <div>
+            buttonsContainer.appendChild(completeButton); //Attachs child element of complete button 
+    
+
+            taskText.textContent = taskValue;//Definition of <span> elucidates through user-input
+
+            //Nesting <elements> under <li>
+            newTask.appendChild(taskText); //Attachs <span> element to <li>
+            newTask.appendChild(buttonsContainer); //Attaches <div class='buttonsContainer'> as a nest to <li>
+            taskList.appendChild(newTask); //Attaches <li> to source HTML <ul> element 
             taskInput.value = ''; // clear the input field
             tasks.push(taskValue); // add new task to the array
     
-    localStorage.setItem('tasks', JSON.stringify(tasks)); // save the updated array to local storage
+    localStorage.setItem('tasks', JSON.stringify(tasks)); // Saves any updates within array to local storage
 
     removeButton.addEventListener('click', function() {
-        newTask.remove(); // remove the task element from the list
-        tasks.splice(tasks.indexOf(taskValue), 1); // remove the task from the tasks array
-        localStorage.setItem('tasks', JSON.stringify(tasks)); // save the updated array to local storage
+        newTask.remove(); // Removes the task element from the list
+        tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
+        localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    });
+
+    completeButton.addEventListener('click', function() {
+        newTask.remove(); // Removes the task element from the list
+        tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
+        localStorage.setItem('tasks', JSON.stringify(tasks)); 
     });
 
 });
 
-// Loads the same tasks on page refresh
+
+// Loads the same content on page refresh
 for (let i = 0; i < tasks.length; i++) {
     
     const newTask = document.createElement('li');
     const taskText = document.createElement('span');
-    const removeButton = document.createElement('button');
-    const completeButton = document.createElement('button');
-    removeButton.className='btn--remove';
-    completeButton.className='btn--complete';
+    
+        const removeButton = document.createElement('button');
+        const completeButton=document.createElement('button');
+            removeButton.className='btn--remove';
+            completeButton.className='btn--complete';
+            completeButton.textContent= '\u2713';
+            removeButton.textContent = 'X';
+
+        const buttonsContainer=document.createElement('div');
+            buttonsContainer.classList.add('btn--container');
+            buttonsContainer.appendChild(removeButton);
+            buttonsContainer.appendChild(completeButton);
    
-    taskText.textContent = tasks[i]; //Creates a new <span> element for every item update
+    taskText.textContent = tasks[i]; 
     completeButton.textContent= '\u2713';
-    removeButton.textContent = 'X'; //Creates a new <button> element for every 'task' item
-    newTask.appendChild(taskText); //Attaches 'task' item to <li> element on index.html
-    newTask.appendChild(removeButton);  //Attaches 'removeButton' to every <li> element on index.html
-    newTask.appendChild(completeButton); //Attaches 'completeButton' to every <li> element on index.html
-    taskList.appendChild(newTask); //Attaches <li> element to <ul> element on index
+    removeButton.textContent = 'X';
+    newTask.appendChild(taskText); 
+    newTask.appendChild(buttonsContainer);  
+    taskList.appendChild(newTask); 
 
     removeButton.addEventListener('click', function(){
+        newTask.remove();
+        tasks.splice(i, 1);
+        localStorage.setItem('tasks',JSON.stringify(tasks));
+    });
+
+    completeButton.addEventListener('click', function(){
         newTask.remove();
         tasks.splice(i, 1);
         localStorage.setItem('tasks',JSON.stringify(tasks));
