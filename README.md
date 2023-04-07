@@ -1,2 +1,6 @@
-# to-do
- A simple to-do list.
+### Created by Emad Ashraf
+A simple to-do list
+
+### Languages used:
+HTML, CSS, AND JAVASCRIPT
+
