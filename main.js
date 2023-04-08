@@ -16,7 +16,9 @@ taskForm.addEventListener('submit', function(event) {
         
         const newTask = document.createElement('li');
         const taskText = document.createElement('span');
+
         
+        //Button elements
         const removeButton = document.createElement('button');
         const completeButton=document.createElement('button');
             removeButton.className='btn--remove'; //Adds className to button
@@ -32,7 +34,7 @@ taskForm.addEventListener('submit', function(event) {
 
             taskText.textContent = taskValue;//Definition of <span> elucidates through user-input
 
-            //Nesting <elements> under <li>
+            //Nesting <elements> under <ul>
             newTask.appendChild(taskText); //Attachs <span> element to <li>
             newTask.appendChild(buttonsContainer); //Attaches <div class='buttonsContainer'> as a nest to <li>
             taskList.appendChild(newTask); //Attaches <li> to source HTML <ul> element 
@@ -41,19 +43,51 @@ taskForm.addEventListener('submit', function(event) {
     
     localStorage.setItem('tasks', JSON.stringify(tasks)); // Saves any updates within array to local storage
 
-    removeButton.addEventListener('click', function() {
-        newTask.remove(); // Removes the task element from the list
-        tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
-        localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    //LEGACY CODE FOR FADE IN/AWAY FUNCTIONALITY
+
+    // removeButton.addEventListener('click', function() {
+    //     newTask.remove(); // Removes the task element from the list
+    //     tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
+    //     localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    // });
+
+    // completeButton.addEventListener('click', function() {
+    //     newTask.remove(); // Removes the task element from the list
+    //     tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
+    //     localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    // });
+
+    const buttonCompletion=document.querySelectorAll('.btn--complete');
+    
+    buttonCompletion.forEach((button)=>{
+        button.addEventListener('click', (event)=>{
+            const fadeAway=event.target.parentElement.parentElement;
+            fadeAway.classList.add('fade--complete');
+            setTimeout(()=>{
+                fadeAway.remove();
+                tasks.splice(tasks.indexOf(taskValue), 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            },500);
+            
+        });
     });
 
-    completeButton.addEventListener('click', function() {
-        newTask.remove(); // Removes the task element from the list
-        tasks.splice(tasks.indexOf(taskValue), 1); // Removes task from the tasks array
-        localStorage.setItem('tasks', JSON.stringify(tasks)); 
+    const buttonRemove=document.querySelectorAll('.btn--remove');
+
+    buttonRemove.forEach((button)=>{
+        button.addEventListener('click',(event)=>{
+            const fadeAway=event.target.parentElement.parentElement;
+            fadeAway.classList.add('fade--remove');
+            setTimeout(()=>{
+                fadeAway.remove();
+                tasks.splice(tasks.indexOf(taskValue),1);
+                localStorage.setItem('tasks',JSON.stringify(tasks));
+            },500)
+        });
     });
 
 });
+
 
 
 // Loads the same content on page refresh
@@ -81,16 +115,47 @@ for (let i = 0; i < tasks.length; i++) {
     newTask.appendChild(buttonsContainer);  
     taskList.appendChild(newTask); 
 
-    removeButton.addEventListener('click', function(){
-        newTask.remove();
-        tasks.splice(i, 1);
-        localStorage.setItem('tasks',JSON.stringify(tasks));
+    //LEGACY CODE FOR FADE IN/AWAY FUNCTIONALITY
+
+    // removeButton.addEventListener('click', function(){
+    //     newTask.remove();
+    //     tasks.splice(i, 1);
+    //     localStorage.setItem('tasks',JSON.stringify(tasks));
+    // });
+
+    // completeButton.addEventListener('click', function(){
+    //     newTask.remove();
+    //     tasks.splice(i, 1);
+    //     localStorage.setItem('tasks',JSON.stringify(tasks));
+    // });
+
+    const buttonCompletion=document.querySelectorAll('.btn--complete');
+    
+    buttonCompletion.forEach((button)=>{
+        button.addEventListener('click', (event)=>{
+            const fadeAway=event.target.parentElement.parentElement;
+            fadeAway.classList.add('fade--complete');
+            setTimeout(()=>{
+                fadeAway.remove();
+                
+                tasks.splice(i, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            },500);
+        });
     });
 
-    completeButton.addEventListener('click', function(){
-        newTask.remove();
-        tasks.splice(i, 1);
-        localStorage.setItem('tasks',JSON.stringify(tasks));
+    const buttonRemove=document.querySelectorAll('.btn--remove');
+
+    buttonRemove.forEach((button)=>{
+        button.addEventListener('click',(event)=>{
+            const fadeAway=event.target.parentElement.parentElement;
+            fadeAway.classList.add('fade--remove');
+            setTimeout(()=>{
+                fadeAway.remove();
+                tasks.splice(i,i);
+                localStorage.setItem('tasks',JSON.stringify(tasks));
+            },500);
+        });
     });
 
 }
